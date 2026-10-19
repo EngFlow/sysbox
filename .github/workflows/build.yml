@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build Sysbox (Static / DEB)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
 
     steps:
       - name: Checkout repository and submodules
