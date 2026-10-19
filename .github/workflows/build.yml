@@ -28,7 +28,7 @@ jobs:
           (cd sysbox-runc && git apply ../sysbox-runc.patch)
           (cd sysbox-pkgr && git apply ../sysbox-pkgr.patch)
           # make sysbox-static
-          (cd sysbox-pkgr && make sysbox-deb ubuntu-jammy)
+          (cd sysbox-pkgr && make sysbox-deb ubuntu-resolute)
 
       - name: Locate generated .deb packages
         run: |
