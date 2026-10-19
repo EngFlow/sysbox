@@ -27,6 +27,7 @@ jobs:
           (cd sysbox-mgr && git apply ../sysbox-mgr.patch)
           (cd sysbox-runc && git apply ../sysbox-runc.patch)
           (cd sysbox-pkgr && git apply ../sysbox-pkgr.patch)
+          (cd sysbox-pkgr && git apply ../changelog-converter.patch)
           # make sysbox-static
           (cd sysbox-pkgr && make sysbox-deb ubuntu-resolute)
 
