@@ -28,6 +28,7 @@ jobs:
           (cd sysbox-runc && git apply ../sysbox-runc.patch)
           (cd sysbox-pkgr && git apply ../sysbox-pkgr.patch)
           (cd sysbox-pkgr && git apply ../changelog-converter.patch)
+          (cd sysbox-pkgr && git apply ../trick-to-workarount-always-fail-setup.patch)
           # make sysbox-static
           (cd sysbox-pkgr && make sysbox-deb ubuntu-resolute)
 

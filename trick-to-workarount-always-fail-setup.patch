@@ -1,0 +1,14 @@
+diff --git a/Makefile b/Makefile
+index 2df228f..9b3e2aa 100644
+--- a/Makefile
++++ b/Makefile
+@@ -127,3 +127,9 @@ clean-ce-deb: ## Remove sysbox-ce DEB package
+ clean-ce-rpm: ## Remove sysbox-ce RPM package
+ 	$(eval export EDITION=ce)
+ 	$(MAKE) -C rpm --no-print-directory clean
++
++ubuntu-resolute:
++	echo "Maybe built"
++
++.PHONY: ubuntu-resolute
++
