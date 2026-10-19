@@ -1,0 +1,35 @@
+name: Build Sysbox Packages
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Sysbox (Static / DEB)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build Sysbox
+        run: |
+          make sysbox-static
+
+      - name: Locate generated .deb packages
+        run: |
+          find . -type f -name "*.deb" -ls
+
+      - name: Upload DEB artifacts
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: sysbox-deb-packages
+          path: "**/*.deb"
+          if-no-files-found: error
