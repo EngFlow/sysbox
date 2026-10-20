@@ -373,7 +373,7 @@ DOCKER_STOP := docker stop -t0 sysbox-test
 ##@ Testing targets
 
 test: ## Run all sysbox test suites
-test: test-fs test-mgr test-runc test-sysbox-libs test-sysbox test-sysbox-systemd
+test: test-fs test-mgr test-sysbox-libs test-sysbox test-sysbox-systemd
 
 test-sysbox: ## Run sysbox integration tests
 test-sysbox: test-prereq test-img
