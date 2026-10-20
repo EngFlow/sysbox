@@ -1,0 +1,87 @@
+diff --git a/utils_test.go b/utils_test.go
+index 5776272..05b3bb7 100644
+--- a/utils_test.go
++++ b/utils_test.go
+@@ -232,7 +232,7 @@ user2:165536:65536
+ sysbox:231072:268435456
+ `
+ 	if err := testConfigSubidRangeHelper(subidFilePre, subidFilePost, 268435456, 100000, 600100000); err != nil {
+-		t.Errorf(err.Error())
++		t.Error(err.Error())
+ 	}
+ 
+ 	// at beginning of range
+@@ -241,7 +241,7 @@ sysbox:231072:268435456
+ user2:165536:65536`
+ 
+ 	if err := testConfigSubidRangeHelper(subidFilePre, subidFilePost, 65536, 100000, 600100000); err != nil {
+-		t.Errorf(err.Error())
++		t.Error(err.Error())
+ 	}
+ 
+ 	// in the middle of range
+@@ -252,13 +252,13 @@ sysbox:165536:65536
+ user2:231072:65536`
+ 
+ 	if err := testConfigSubidRangeHelper(subidFilePre, subidFilePost, 65536, 100000, 600100000); err != nil {
+-		t.Errorf(err.Error())
++		t.Error(err.Error())
+ 	}
+ 
+ 	// not enought ids
+ 	subidFilePre = `user1:100000:65536`
+ 	if err := testConfigSubidRangeHelper(subidFilePre, subidFilePost, 600034465, 100000, 600100000); err == nil {
+-		t.Errorf("configSubidRange(): expected alloc error, got no error")
++		t.Error("configSubidRange(): expected alloc error, got no error")
+ 	}
+ 
+ 	// do not disturb existing sysbox entry
+@@ -269,7 +269,7 @@ user3:296608:65536`
+ 	subidFilePost = subidFilePre
+ 
+ 	if err := testConfigSubidRangeHelper(subidFilePre, subidFilePost, 65536, 100000, 600100000); err != nil {
+-		t.Errorf(err.Error())
++		t.Error(err.Error())
+ 	}
+ 
+ 	// replace redundant sysbox entries with one entry
+@@ -283,7 +283,7 @@ user3:165536:65536
+ sysbox:231072,65536`
+ 
+ 	if err := testConfigSubidRangeHelper(subidFilePre, subidFilePost, 65536, 100000, 600100000); err != nil {
+-		t.Errorf(err.Error())
++		t.Error(err.Error())
+ 	}
+ }
+ 
+@@ -338,7 +338,7 @@ some data
+ 
+ 	want := []uint64{100000, 600100000, 100000, 2147483648}
+ 	if err := testGetSubidLimitsHelper(fileData, want); err != nil {
+-		t.Errorf(err.Error())
++		t.Error(err.Error())
+ 	}
+ 
+ 	// login.defs file without uid(gid) limits
+@@ -348,7 +348,7 @@ some data
+ 
+ 	want = []uint64{100000, 4294967295, 100000, 4294967295}
+ 	if err := testGetSubidLimitsHelper(fileData, want); err != nil {
+-		t.Errorf(err.Error())
++		t.Error(err.Error())
+ 	}
+ }
+ 
+diff --git a/volMgr/volMgr_test.go b/volMgr/volMgr_test.go
+index dad573e..6bbb182 100644
+--- a/volMgr/volMgr_test.go
++++ b/volMgr/volMgr_test.go
+@@ -191,7 +191,7 @@ func TestCreateVol(t *testing.T) {
+ 
+ 	// create the volume and verify all is good
+ 	if _, err := testCreateVolWork(id, hostDir, rootfs, mountpoint, uid, gid, false); err != nil {
+-		t.Errorf(err.Error())
++		t.Error(err.Error())
+ 	}
+ }
+ 
