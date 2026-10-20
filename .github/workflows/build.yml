@@ -66,10 +66,3 @@ jobs:
       - name: Info for deb artifacts
         run: |
           dpkg --info sysbox-pkgr/deb/build/*/*/sysbox-ce_*.linux_*.deb
-
-      - name: Upload DEB artifacts
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
-        with:
-          name: sysbox-deb-packages
-          path: "sysbox-pkgr/deb/build/*/*/sysbox-ce_*.linux_*.deb"
-          if-no-files-found: error
