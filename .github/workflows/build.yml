@@ -56,6 +56,7 @@ jobs:
           (cd sysbox-pkgr && git apply ../sysbox-pkgr.patch)
           (cd sysbox-pkgr && git apply ../changelog-converter.patch)
           (cd sysbox-pkgr && git apply ../trick-to-workarount-always-fail-setup.patch)
+          (cd sysbox-pkgr && git apply ../pkgr-copyright-and-license.patch)
           (cd sysbox-pkgr && make sysbox-deb ubuntu-resolute)
 
       - name: Locate generated .deb packages
