@@ -58,6 +58,7 @@ jobs:
           (cd sysbox-pkgr && git apply ../trick-to-workarount-always-fail-setup.patch)
           (cd sysbox-pkgr && git apply ../pkgr-copyright-and-license.patch)
           (cd sysbox-pkgr && git apply ../pkgr-apply-custom-changes.patch)
+          (cd sysbox-pkgr && git apply ../pkgr-no-gitconfig-mount.patch)
           (cd sysbox-pkgr && make sources/sysbox)
           (cd sysbox-pkgr/sources/sysbox/sysbox-fs && git apply ../../../../sysbox-fs.patch)
           (cd sysbox-pkgr && make sysbox-deb ubuntu-resolute)

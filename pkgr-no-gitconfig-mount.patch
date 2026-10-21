@@ -1,0 +1,20 @@
+diff --git a/deb/Makefile b/deb/Makefile
+index 6875870..ea033a6 100644
+--- a/deb/Makefile
++++ b/deb/Makefile
+@@ -73,7 +73,6 @@ DOCKER_RUN=docker run --privileged --rm -i    \
+ 	-e EDITION                                \
+ 	-v $(CURDIR)/build/$(ARCH)/$@:/build      \
+ 	-v $(GOPATH)/pkg/mod:/go/pkg/mod          \
+-	-v $(HOME)/.gitconfig:/root/.gitconfig:ro \
+ 	-v /lib/modules/$(KERNEL_REL):/lib/modules/$(KERNEL_REL):ro \
+ 	-v /usr/src/$(HEADERS):/usr/src/$(HEADERS):ro \
+ 	-v /usr/src/$(HEADERS_BASE):/usr/src/$(HEADERS_BASE):ro \
+@@ -90,7 +89,6 @@ DOCKER_RUN_RELEASE=docker run --privileged --rm -i               \
+ 	-e EDITION                                                   \
+ 	-v $(CURDIR)/build/$(ARCH)/$(RELEASE_BASELINE_IMAGE):/build  \
+ 	-v $(GOPATH)/pkg/mod:/go/pkg/mod                             \
+-	-v $(HOME)/.gitconfig:/root/.gitconfig:ro                    \
+ 	-v /lib/modules/$(KERNEL_REL):/lib/modules/$(KERNEL_REL):ro  \
+ 	-v /usr/src/$(HEADERS):/usr/src/$(HEADERS):ro                \
+ 	-v /usr/src/$(HEADERS_BASE):/usr/src/$(HEADERS_BASE):ro      \
