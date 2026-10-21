@@ -1,0 +1,75 @@
+name: Release Sysbox
+
+on:
+  push:
+    tags:
+      - 'v*-test'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Sysbox (DEB)
+    runs-on: ubuntu-26.04
+    steps:
+      - name: Show versions
+        run: |
+          echo "Docker"
+          docker --version
+          echo "uname"
+          uname -a
+
+      - name: Checkout repository and submodules
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Verify release branch
+        run: |
+          echo "Verifying that tag '${{ github.ref_name }}' belongs to a release-* branch..."
+          git fetch --no-tags --depth=1 origin '+refs/heads/*:refs/remotes/origin/*'
+          
+          if ! git branch -r --contains HEAD | grep -E '^\s*origin/release-'; then
+            echo "::error::Tag '${{ github.ref_name }}' was not created on a branch prefixed with 'release-'."
+            echo "Branches containing this commit:"
+            git branch -r --contains HEAD
+            exit 1
+          fi
+          
+          echo "Tag '${{ github.ref_name }}' verified on a valid release branch."
+
+      - name: Build Sysbox
+        run: |
+          (cd sysbox-pkgr && git apply ../sysbox-pkgr.patch)
+          (cd sysbox-pkgr && git apply ../changelog-converter.patch)
+          (cd sysbox-pkgr && git apply ../trick-to-workarount-always-fail-setup.patch)
+          (cd sysbox-pkgr && git apply ../pkgr-copyright-and-license.patch)
+          (cd sysbox-pkgr && make sysbox-deb ubuntu-resolute)
+
+      - name: Locate generated .deb packages
+        run: |
+          find . -type f -name "*.deb" -ls
+
+      - name: Info for deb artifacts
+        run: |
+          dpkg --info sysbox-pkgr/deb/build/*/*/sysbox-ce_*.linux_*.deb
+
+      - name: Generate deb checksum
+        run: |
+          mkdir -p release-assets
+          for pkg in sysbox-pkgr/deb/build/*/*/sysbox-ce_*.linux_*.deb; do
+            (cd "$(dirname "$pkg")" && sha256sum "$(basename "$pkg")") >> release-assets/SHA256SUMS
+          done
+          echo "Generated Checksums:"
+          cat release-assets/SHA256SUMS
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            release-assets/SHA256SUMS \
+            --title "${{ github.ref_name }}" \
+            --prerelease
