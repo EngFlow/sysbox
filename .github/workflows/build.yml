@@ -76,7 +76,7 @@ jobs:
           # 1. Unpack deb into a temporary directory
           EXTRACT_DIR="./extracted_deb"
           mkdir -p "$EXTRACT_DIR"
-          dpkg-deb -extract "$DEB_FILE" "$EXTRACT_DIR"
+          dpkg-deb --extract "$DEB_FILE" "$EXTRACT_DIR"
 
           # 2. Run the apps with --version
           "$EXTRACT_DIR/usr/bin/sysbox-fs" --version
