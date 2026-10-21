@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index b2c2de8..d969a4e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -30,7 +30,7 @@ LIBSPIDMON_SRC := $(shell find $(LIBPIDMON_DIR) 2>&1 | grep -E '.*\.(go)')
+ NSENTER_DIR := ../sysbox-runc/libcontainer/nsenter
+ NSENTER_SRC := $(shell find $(NSENTER_DIR) 2>&1 | grep -E '.*\.(c|h|go)')
+ 
+-COMMIT_NO := $(shell git rev-parse HEAD 2> /dev/null || true)
++COMMIT_NO := $(shell git rev-parse HEAD 2> /dev/null)
+ COMMIT ?= $(if $(shell git status --porcelain --untracked-files=no),$(COMMIT_NO)-dirty,$(COMMIT_NO))
+ BUILT_AT := $(shell date)
+ BUILT_BY := $(shell git config user.name)
