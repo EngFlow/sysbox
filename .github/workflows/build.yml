@@ -57,6 +57,7 @@ jobs:
           (cd sysbox-pkgr && git apply ../changelog-converter.patch)
           (cd sysbox-pkgr && git apply ../trick-to-workarount-always-fail-setup.patch)
           (cd sysbox-pkgr && git apply ../pkgr-copyright-and-license.patch)
+          (cd sysbox-pkgr && git apply ../pkgr-apply-custom-changes.patch)
           (cd sysbox-pkgr && make sysbox-deb ubuntu-resolute)
 
       - name: Locate generated .deb packages
@@ -66,3 +67,18 @@ jobs:
       - name: Info for deb artifacts
         run: |
           dpkg --info sysbox-pkgr/deb/build/*/*/sysbox-ce_*.linux_*.deb
+
+      - name: Verify deb artifact versions
+        run: |
+          # Locate the package
+          DEB_FILE=$(ls sysbox-pkgr/deb/build/*/*/sysbox-ce_*.linux_*.deb | head -n 1)
+
+          # 1. Unpack deb into a temporary directory
+          EXTRACT_DIR="./extracted_deb"
+          mkdir -p "$EXTRACT_DIR"
+          dpkg-deb -extract "$DEB_FILE" "$EXTRACT_DIR"
+
+          # 2. Run the apps with --version
+          "$EXTRACT_DIR/usr/bin/sysbox-fs" --version
+          "$EXTRACT_DIR/usr/bin/sysbox-runc" --version
+          "$EXTRACT_DIR/usr/bin/sysbox-mgr" --version
