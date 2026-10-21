@@ -6,7 +6,7 @@ index 2df228f..583dea1 100644
  sources/sysbox:
  	@printf "\n*** Cloning sysbox-ce superproject repository to $(CE_SOURCES) ***\n\n"
  	@git clone --recursive https://github.com/nestybox/sysbox.git sources/sysbox
-+	(cd sources/sysbox/sysbox-mgr && git apply ../../../../sysbox-mgr-dont-call-errorf.patch) && (cd sources/sysbox/sysbox-fs && git apply ../../../../sysbox-fs.patch)
++	(cd sources/sysbox/sysbox-mgr && git apply ../../../../sysbox-mgr-dont-call-errorf.patch)
 +	cp ../VERSION_OVERRIDE sources/sysbox/VERSION
 +
  
