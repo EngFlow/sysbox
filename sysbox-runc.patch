@@ -1,0 +1,19 @@
+diff --git a/Makefile b/Makefile
+index 1cb90bb9..647490d5 100644
+--- a/Makefile
++++ b/Makefile
+@@ -38,10 +38,10 @@ RUNC_IMAGE := runc_dev$(if $(GIT_BRANCH_CLEAN),:$(GIT_BRANCH_CLEAN))
+ NBOX := /root/nestybox
+ RUNC := $(NBOX)/sysbox-runc
+ 
+-COMMIT_NO := $(shell git rev-parse HEAD 2> /dev/null || true)
+-COMMIT ?= $(if $(shell git status --porcelain --untracked-files=no),$(COMMIT_NO)-dirty,$(COMMIT_NO))
+-BUILT_AT := $(shell date)
+-BUILT_BY := $(shell git config user.name)
++COMMIT_NO := "unset"
++COMMIT ?= "unset"
++BUILT_AT := "unset"
++BUILT_BY := "unset"
+ 
+ SYSIPC_DIR := ../sysbox-ipc
+ SYSIPC_SRC := $(shell find $(SYSIPC_DIR) 2>&1 | grep -E '.*\.(c|h|go|proto)$$')

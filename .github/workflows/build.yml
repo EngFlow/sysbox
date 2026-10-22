@@ -1,0 +1,87 @@
+name: Build Sysbox Packages
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test Sysbox
+    runs-on: ubuntu-26.04
+    steps:
+      - name: Show versions
+        run: |
+          echo "Docker"
+          docker --version
+          echo "uname"
+          uname -a
+
+      - name: Checkout repository and submodules
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Test Sysbox
+        run: |
+          (cd sysbox-mgr && git apply ../sysbox-mgr-dont-call-errorf.patch)
+          (cd sysbox-mgr && git apply ../sysbox-mgr.patch)
+          (cd sysbox-runc && git apply ../sysbox-runc.patch)
+          sudo apt update && sudo apt install -y apparmor-utils
+          sudo aa-complain fusermount3 # makes sense only in isolated environment, do not copy to bundles
+          make test
+
+  build:
+    name: Build Sysbox (DEB)
+    runs-on: ubuntu-26.04
+    steps:
+      - name: Show versions
+        run: |
+          echo "Docker"
+          docker --version
+          echo "uname"
+          uname -a
+
+      - name: Checkout repository and submodules
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build Sysbox
+        run: |
+          (cd sysbox-pkgr && git apply ../sysbox-pkgr.patch)
+          (cd sysbox-pkgr && git apply ../changelog-converter.patch)
+          (cd sysbox-pkgr && git apply ../trick-to-workarount-always-fail-setup.patch)
+          (cd sysbox-pkgr && git apply ../pkgr-copyright-and-license.patch)
+          (cd sysbox-pkgr && git apply ../pkgr-apply-custom-changes.patch)
+          git config --global user.name "Unset"
+          (cd sysbox-pkgr && make sources/sysbox)
+          (cd sysbox-pkgr/sources/sysbox/sysbox-fs && git apply ../../../../sysbox-fs.patch)
+          (cd sysbox-pkgr && make sysbox-deb generic)
+
+      - name: Locate generated .deb packages
+        run: |
+          find . -type f -name "*.deb" -ls
+
+      - name: Info for deb artifacts
+        run: |
+          dpkg --info sysbox-pkgr/deb/build/*/*/sysbox-ce_*.linux_*.deb
+
+      - name: Verify deb artifact versions
+        run: |
+          # Locate the package
+          DEB_FILE=$(ls sysbox-pkgr/deb/build/*/*/sysbox-ce_*.linux_*.deb | head -n 1)
+
+          # 1. Unpack deb into a temporary directory
+          EXTRACT_DIR="./extracted_deb"
+          mkdir -p "$EXTRACT_DIR"
+          dpkg-deb --extract "$DEB_FILE" "$EXTRACT_DIR"
+
+          # 2. Run the apps with --version
+          "$EXTRACT_DIR/usr/bin/sysbox-fs" --version
+          "$EXTRACT_DIR/usr/bin/sysbox-runc" --version
+          "$EXTRACT_DIR/usr/bin/sysbox-mgr" --version

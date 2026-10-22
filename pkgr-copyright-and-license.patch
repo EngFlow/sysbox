@@ -1,0 +1,42 @@
+diff --git a/deb/sysbox-ce/control b/deb/sysbox-ce/control
+index 8cc5766..3088556 100644
+--- a/deb/sysbox-ce/control
++++ b/deb/sysbox-ce/control
+@@ -1,12 +1,11 @@
+ Source: sysbox-ce
+ Section: admin
+ Priority: optional
+-Maintainer: Nestybox <contact@nestybox.com>
++Maintainer: unset <unset@localhost>
+ Build-Depends: debhelper (>= 10~),
+                bash,
+ Standards-Version: 4.1.4
+-Homepage: nestybox.com
+-Vcs-Git: git://github.com/nestybox/sysbox.git
++Homepage: unset
+ 
+ Package: sysbox-ce
+ Architecture: linux-any
+@@ -19,7 +18,4 @@ Depends: ${shlibs:Depends},
+          lsb-release,
+          rsync,
+          iptables
+-Description: Sysbox Community Edition (CE) is a next-generation container runtime,
+- developed by Nestybox, that enables deployment of containers that are capable of
+- running not just micro-services, but also system software such as Docker, Kubernetes,
+- Systemd, etc., inside the container, easily and securely.
+\ No newline at end of file
++Description: 
+\ No newline at end of file
+diff --git a/deb/sysbox-ce/copyright b/deb/sysbox-ce/copyright
+index b4d8d5d..f5696ed 100644
+--- a/deb/sysbox-ce/copyright
++++ b/deb/sysbox-ce/copyright
+@@ -10,3 +10,7 @@ Disclaimer:
+ Files: *
+ Copyright: 2019-2022 Nestybox Inc.  All rights reserved.
+ License: Apache License, Version 2.0.
++
++Files: 
++Copyright: 2026 <unset-yet>.  All rights reserved.
++License: Apache License, Version 2.0.

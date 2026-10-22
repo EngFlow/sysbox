@@ -1,0 +1,27 @@
+diff --git a/deb/changelog_convert.sh b/deb/changelog_convert.sh
+index 036bde0..b6e1f6d 100755
+--- a/deb/changelog_convert.sh
++++ b/deb/changelog_convert.sh
+@@ -95,19 +95,9 @@ function print_tag_trailer() {
+     local tag=$1
+     local unreleased=$2
+ 
+-    local tag_author=""
+-    local tag_email=""
+-    local tag_date=""
+-
+-    if [[ "$unreleased" = true ]]; then
+-        tag_author=$(git config user.name)
+-        tag_email=$(git config user.email)
+-        tag_date=$(date --rfc-2822)
+-    else
+-        tag_author=$(git -C sysbox log -1 --format=%aN v$1)
+-        tag_email=$(git -C sysbox log -1 --format=%ae v$1)
+-        tag_date=$(git -C sysbox log -1 --format=%aD v$tag)
+-    fi
++    local tag_author="author"
++    local tag_email="author@localhost"
++    local tag_date=$(date --rfc-2822)
+ 
+     echo -e "\n -- ${tag_author} <${tag_email}>  ${tag_date}\n"
+ }
