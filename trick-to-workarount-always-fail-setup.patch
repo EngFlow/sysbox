@@ -7,8 +7,8 @@ index 2df228f..9b3e2aa 100644
  	$(eval export EDITION=ce)
  	$(MAKE) -C rpm --no-print-directory clean
 +
-+ubuntu-resolute:
++generic:
 +	echo "Maybe built"
 +
-+.PHONY: ubuntu-resolute
++.PHONY: generic 
 +

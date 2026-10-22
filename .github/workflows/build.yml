@@ -58,10 +58,10 @@ jobs:
           (cd sysbox-pkgr && git apply ../trick-to-workarount-always-fail-setup.patch)
           (cd sysbox-pkgr && git apply ../pkgr-copyright-and-license.patch)
           (cd sysbox-pkgr && git apply ../pkgr-apply-custom-changes.patch)
-          (cd sysbox-pkgr && git apply ../pkgr-no-gitconfig-mount.patch)
+          git config --global user.name "Unset"
           (cd sysbox-pkgr && make sources/sysbox)
           (cd sysbox-pkgr/sources/sysbox/sysbox-fs && git apply ../../../../sysbox-fs.patch)
-          (cd sysbox-pkgr && make sysbox-deb ubuntu-resolute)
+          (cd sysbox-pkgr && make sysbox-deb generic)
 
       - name: Locate generated .deb packages
         run: |
